@@ -39,8 +39,7 @@ class LinkedList {
 void LinkedList::push(int data) { 
 	Node *new_node = new Node();
 
-	new_node->data = data;
-    
+    new_node->data = data;
     new_node->next = head;
     head = new_node;
 
