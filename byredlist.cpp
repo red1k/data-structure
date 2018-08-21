@@ -13,12 +13,10 @@ class LinkedList {
 	public:
 		int length;
 		Node *head;
-		Node *tail;
 
 		LinkedList() {
             cout << "Linked list object created!\n";
             this->head = NULL;
-            this->tail = NULL;
             this->length = 0;
 		}
 
@@ -49,17 +47,25 @@ void LinkedList::push(int data) {
 void LinkedList::append(int data) { 
 
 	Node *new_node = new Node();
+    Node *current = head;
 
     new_node->data = data;
     new_node->next = NULL;
 
-    if(head == NULL) {
+    if(current == NULL) {
         head = new_node;
-        tail = new_node;
+    }
+
+    else {
+        while(current->next != NULL){
+            current = current->next;
+        }
+        current->next = new_node;
     }
 
 	this->length++;
 }
+//must clarify append function!
 
 void LinkedList::print() {
 	Node *temp = new Node();
@@ -80,6 +86,11 @@ int main() {
 	list->push(3);
 	list->push(2);
 	list->push(1);
+
+	list->append(10);
+	list->append(20);
+	list->append(30);
+	list->append(40);
 
 	list->print();
     cout << "\n";
