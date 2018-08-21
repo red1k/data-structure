@@ -65,7 +65,7 @@ void LinkedList::append(int data) {
 
 	this->length++;
 }
-//must clarify append function!
+//must clarify append function later!
 
 void LinkedList::print() {
 	Node *temp = new Node();
