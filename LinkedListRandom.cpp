@@ -41,7 +41,7 @@ void LinkedList::add(int data) {
 }
 
 void LinkedList::print() {
-	Node* head = this->head;
+	Node *head = this->head;
 	int i = 1;
 
 	while(head) {
@@ -53,7 +53,7 @@ void LinkedList::print() {
 
 int main(int argc, char const *argv[]) {
 
-	LinkedList* list = new LinkedList();
+	LinkedList *list = new LinkedList();
 	
 	for(int i = 0; i < 10; ++i)
 		list->add(rand() % 100);
