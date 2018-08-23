@@ -112,6 +112,7 @@ int main() {
 	list->insert(50,1);
 	list->insert(200,0);
 	list->insert(100,5);
+	list->insert(100,5);
 
 	list->print();
     cout << "\n";
