@@ -28,6 +28,7 @@ class LinkedList {
 		void push(int data);
 		void append(int data);
 		void insert(int data, int index);
+		void del(int index);
 
 };
 
@@ -83,6 +84,18 @@ void LinkedList::insert(int data, int index) {
 	}
 }
 
+void LinkedList::del(int index) {
+
+	Node *temp = head;
+	for (int i = 1; i < index-1; i++) 
+		temp = temp->next;	
+
+	Node *prev = temp->next;
+	prev->next = temp->next;	
+
+	delete temp;
+}
+//does not work properly
 
 void LinkedList::print() {
 	Node *temp = new Node();
@@ -112,6 +125,7 @@ int main() {
 	list->insert(50,1);
 	list->insert(200,0);
 	list->insert(100,5);
+	list->del(10);
 
 	list->print();
     cout << "\n";
