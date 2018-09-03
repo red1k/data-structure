@@ -8,7 +8,6 @@ struct Node {
     Node *next;
 };
 
-
 class LinkedList {
 	public:
 		int length;
