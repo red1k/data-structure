@@ -100,7 +100,7 @@ void LinkedList::deletion(int index) {
 	temp = head;
 
 	for (int i = 1; i < index; i++) {
-		prev = temp;							//re-read again and understand!
+		prev = temp;							//re-read and understand!
 		temp = temp->next;	
 	}
 
