@@ -26,12 +26,12 @@ void bubbleSort(int array[], int length) {
 int main() {
 	
 	int array[] = {1, 3, 2, 11, 2, 5};
-	int n = sizeof(array)/sizeof(array[0]);
+	int length = sizeof(array)/sizeof(array[0]);
 
 	cout << "Array before sorting: \n";
-	print(array, n);
+	print(array, length);
 	
-	bubbleSort(array, n);
+	bubbleSort(array, length);
 
 	cout << "Array after sorting: \n";
 	print(array, n);
