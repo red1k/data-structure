@@ -12,11 +12,11 @@ int main() {
 	print(array, length);
 
 	cout << "Bubble sort: \n";
-	bubbleSort(array, length);				//big O = two "for" loop therefore n^2
+	bubbleSort(array, length);
 	print(array, length);
 
 	cout << "Selection sort: \n";
-	selectionSort(array, length);			//big O = two "for" loop therefore n^2
+	selectionSort(array, length);
 	print(array, length);
 /*
 	cout << "Insertion sort: \n";
