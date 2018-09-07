@@ -31,11 +31,23 @@ void selectionSort(int array[], int length) {
 		for (int j=i+1; j<length; j++) {
 			if (array[j] < array[min]) {
 				min = j;
-				swap(&array[min], &array[i]);
+				swap(&array[min], &array[j]);
 			}
 		}
 	}
 }
+
+void selectionSortbyGG(int array[], int length) {
+	
+	for (int i=0; i<length-1; i++) {
+		for (int j=i+1; j<length; j++) {
+			if (array[j] < array[i]) 
+				swap(&array[i], &array[j]);
+		}
+	}
+}
+
+//zurax(a, n, i, j);
 
 void insertionSort(int array[], int length) {
 
