@@ -87,10 +87,12 @@ void append(int a[], int n, int b[], int m) {
 }
 
 void reverse(int a[], int n) {
-	int b[n] = {};
-	for (int i = 0; i < n; i++) 
-		b[i] = a[n-i-1];
-	print(b, n);
+
+	for (int i = 0; i < n/2; i++) {
+		int temp = a[i];
+		a[i] = a[n-i-1];
+		a[n-i-1] = temp;
+	}
 }
 	
 int main() {
@@ -139,6 +141,7 @@ int main() {
 
 	cout << "d array is reversed: \n";
 	reverse(d, 8);
+	print(d, 8);
 
 	return 0;
 }
