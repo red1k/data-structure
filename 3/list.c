@@ -27,7 +27,7 @@ void release(struct List *p) {
 	p->dat = NULL;
 }
 /* p-ийн зааж буй List хоосон бол 1 үгүй бол 0-ийг буцаана */
-int empty(struct List *p) {
+int empty(struct List *p) { 		//need clarification
 	if (p->size > 0) 
 		return 1;
 	else 
@@ -36,7 +36,6 @@ int empty(struct List *p) {
 
 /* p-ийн зааж буй List-д x утгыг төгсгөлд хийнэ */
 void push_back(struct List *p, int x) {
-	p->;
 	p->size++;
 }
 
