@@ -26,17 +26,16 @@ void release(struct List *p) {
 	free(p->dat);
 	p->dat = NULL;
 }
-/* p-ийн зааж буй List хоосон бол 1 үгүй бол 0-ийг буцаана */
-int empty(struct List *p) { 		//need clarification
-	if (p->size > 0) 
+
+int empty(struct List *p) {
+	if (p->len > 0) 
 		return 1;
-	else 
-		return 0;
+	return 0;
 }
 
 /* p-ийн зааж буй List-д x утгыг төгсгөлд хийнэ */
 void push_back(struct List *p, int x) {
-	p->size++;
+	p->len++;
 }
 
 /* p-ийн зааж буй List-д x утгыг эхэнд  хийнэ */
