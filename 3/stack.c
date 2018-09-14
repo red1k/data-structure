@@ -24,20 +24,18 @@ void release(struct Stack *p) {
 	free(p->dat);
 	p->dat = NULL;
 }
-/* p-ийн зааж буй Stack хоосон бол 1 үгүй бол 0-ийг буцаана */
+
 int empty(struct Stack *p) {
 	if (p->size == 0) 
-		return 1;
+		return 1;   								// if empty then 1
 	return 0;
 }
 
-/* p-ийн зааж буй Stack-д x утгыг хийнэ */
  void push(struct Stack *p, int x) { 
 	p->size++;
 	p->dat[p->size] = x;
  } 
 
-/* p-ийн зааж буй Stack-с гарган буцаана */
 int pop(struct Stack *p) {
 	
 	int result;
@@ -52,16 +50,16 @@ int pop(struct Stack *p) {
 	return result;
 }
 
-/* p-ийн зааж буй Stack-н утгуудыг хэвлэнэ */
 void print(struct Stack *p) {
 	for (int i = p->size-1; i >= 0; i--) 
 		printf("Stack -- > %d\n",p->dat[p->size-i]);
 }
 
+// need to print reversed order!
+
 
 int main()
 {
-	/* Stack үүсгэн, эхлүүлэх */
 	struct Stack st;
 	init(&st, 10);
 	int t, x;
@@ -100,7 +98,8 @@ int main()
 			exit(0);
 		}
 	}
-	/* Stack-ийн эзэмшсэн нөөцийг чөлөөлөх */
+
 	release(&st);
+
 	return 0;
 }
