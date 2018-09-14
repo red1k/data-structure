@@ -6,6 +6,7 @@ struct Stack {
 	int *dat;
 	int size;
 };
+
 int error = 0;
 const char error_msg[][50] = {
 	"",
@@ -13,40 +14,48 @@ const char error_msg[][50] = {
 	"Stack xooson!"
 };
 
-void init(struct Stack *p, int n)
-{
+void init(struct Stack *p, int n) {
 	p->len = n;
 	p->size = 0;
 	p->dat = (int *) malloc(sizeof(int) * n);
 }
 
-void release(struct Stack *p)
-{
+void release(struct Stack *p) {
 	free(p->dat);
 	p->dat = NULL;
 }
 /* p-ийн зааж буй Stack хоосон бол 1 үгүй бол 0-ийг буцаана */
-int empty(struct Stack *p)
-{
-	/* Энд хоосон эсэхийг шалгах үйлдлийг хийнэ */
+int empty(struct Stack *p) {
+	if (p->size == 0) 
+		return 1;
+	return 0;
 }
 
 /* p-ийн зааж буй Stack-д x утгыг хийнэ */
-void push(struct Stack *p, int x)
-{
-	/* Энд оруулах үйлдлийг хийнэ үү */
-}
+ void push(struct Stack *p, int x) { 
+	p->size++;
+	p->dat[p->size] = x;
+ } 
 
 /* p-ийн зааж буй Stack-с гарган буцаана */
-int pop(struct Stack *p)
-{
-	/* Энд гаргах үйлдлийг хийнэ үү */
+int pop(struct Stack *p) {
+	
+	int result;
+
+	if(p->size == 0)
+		error = 2;
+	else {
+		result = p->dat[p->size];
+		p->size--;
+	}	
+	
+	return result;
 }
 
 /* p-ийн зааж буй Stack-н утгуудыг хэвлэнэ */
-void print(struct Stack *p)
-{
-	/* Энд хэвлэх үйлдлийг хийнэ үү */
+void print(struct Stack *p) {
+	for (int i = p->size-1; i >= 0; i--) 
+		printf("Stack -- > %d\n",p->dat[p->size-i]);
 }
 
 
