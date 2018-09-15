@@ -32,14 +32,14 @@ int empty(struct Stack *p) {
 	return 0;
 }
 
- void push(struct Stack *p, int x) {
+void push(struct Stack *p, int x) {
 	if (p->size >= p->len)
 		error = 1;
 	else {
 		p->size++;
 		p->dat[p->size] = x;
 	}
- } 
+}
 
 int pop(struct Stack *p) {
 	
