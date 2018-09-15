@@ -33,7 +33,7 @@ int empty(struct Stack *p) {
 }
 
 void push(struct Stack *p, int x) {
-	if (p->size >= p->len)
+	if (p->size > p->len)
 		error = 1;
 	else {
 		p->size++;
