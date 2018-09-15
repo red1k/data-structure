@@ -8,6 +8,7 @@ struct Stack {
 };
 
 int error = 0;
+
 const char error_msg[][50] = {
 	"",
 	"Stack duuren!",
@@ -31,16 +32,20 @@ int empty(struct Stack *p) {
 	return 0;
 }
 
- void push(struct Stack *p, int x) { 
-	p->size++;
-	p->dat[p->size] = x;
+ void push(struct Stack *p, int x) {
+	if (p->size >= p->len)
+		error = 1;
+	else {
+		p->size++;
+		p->dat[p->size] = x;
+	}
  } 
 
 int pop(struct Stack *p) {
 	
 	int result;
 
-	if(p->size == 0)
+	if (p->size == 0)
 		error = 2;
 	else {
 		result = p->dat[p->size];
@@ -51,17 +56,20 @@ int pop(struct Stack *p) {
 }
 
 void print(struct Stack *p) {
-	for (int i = p->size-1; i >= 0; i--) 
-		printf("Stack -- > %d\n",p->dat[p->size-i]);
+	if (p->size == 0) 
+		error = 2;
+	else {
+		for (int i = p->size-1; i >= 0; i--) 
+			printf("Stack -- > %d\n",p->dat[p->size-i]);
+	}
 }
-
 // need to print reversed order!
 
 
-int main()
-{
+int main() {
+
 	struct Stack st;
-	init(&st, 10);
+	init(&st, 5);
 	int t, x;
 
 	while (1) {
@@ -78,6 +86,7 @@ int main()
 			else
 				printf("%d utga orloo\n", x);
 			break;
+
 		case 2:
 			x = pop(&st);
 			if (error) 
@@ -85,15 +94,21 @@ int main()
 			else
 				printf("%d utga garlaa\n", x);
 			break;
+
 		case 3:
-			print(&st);
+			if (empty(&st))
+				printf("Stack xooson\n");
+			else
+				print(&st);
 			break;
+
 		case 4:
 			if (empty(&st))
 				printf("Stack xooson\n");
 			else
 				printf("Stack xooson bish\n");
 			break;
+
 		default:
 			exit(0);
 		}
