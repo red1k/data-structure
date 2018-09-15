@@ -28,19 +28,30 @@ void release(struct List *p) {
 }
 
 int empty(struct List *p) {
-	if (p->len > 0) 
+	if (p->size == 0)
 		return 1;
 	return 0;
 }
 
 /* p-ийн зааж буй List-д x утгыг төгсгөлд хийнэ */
 void push_back(struct List *p, int x) {
-	p->len++;
+	if (p->size > p->len)
+		error = 1;
+	else
+		p->dat[p->size++] = x;
 }
 
 /* p-ийн зааж буй List-д x утгыг эхэнд  хийнэ */
-void push_front(struct List *p, int x) {
-	/* Энд оруулах үйлдлийг хийнэ үү */
+void push_front(struct List *p, int x) {				//does not work properly!
+	if (p->size > p->len)
+		error = 1;
+	else {
+		int temp = p->size;
+		for (int i = 1; i <= temp; i++) {
+			p->dat[i] = p->dat[i-1];
+		}
+		p->dat[0] = x;
+	}
 }
 
 /* p-ийн зааж буй List-д x утгыг pos байрлалд хийнэ
@@ -70,7 +81,9 @@ int erase(struct List *p, int pos) {
 
 /* p-ийн зааж буй List-н утгуудыг хэвлэнэ */
 void print(struct List *p) {
-	/* Энд хэвлэх үйлдлийг хийнэ үү */
+	for (int i = 0; i < p->size; i++) {
+		printf("List -> %d\n", p->dat[i]);
+	}
 }
 
 /* p-ийн зааж буй List-н хамгийн эхний элементийн утгыг буцаана.
