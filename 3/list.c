@@ -32,7 +32,6 @@ int empty(struct List *p) {
 		return 1;
 	return 0;
 }
-
 /* p-ийн зааж буй List-д x утгыг төгсгөлд хийнэ */
 void push_back(struct List *p, int x) {
 	if (p->size > p->len)
@@ -41,16 +40,27 @@ void push_back(struct List *p, int x) {
 		p->dat[p->size++] = x;
 }
 
-/* p-ийн зааж буй List-д x утгыг эхэнд  хийнэ */
-void push_front(struct List *p, int x) {				//does not work properly!
+void push_front(struct List *p, int x) {
 	if (p->size > p->len)
 		error = 1;
 	else {
-		int temp = p->size;
-		for (int i = 1; i <= temp; i++) {
-			p->dat[i] = p->dat[i-1];
+		if (p->size == 0) {
+			p->dat[0] = x;
+			p->size++;
 		}
-		p->dat[0] = x;
+		else {
+			struct List temp;
+			init(&temp, p->size);
+
+			for (int i = 0; i <= p->size; i++)					//copying List p's data to List temp
+				temp.dat[i] = p->dat[i];
+
+			for (int i = 1; i <= p->size; i++)
+				p->dat[i] = temp.dat[i-1];
+
+			p->dat[0] = x;
+			p->size++;
+		}
 	}
 }
 
@@ -58,18 +68,48 @@ void push_front(struct List *p, int x) {				//does not work properly!
    pos болон түүнээс хойшхи элементүүд нэг байрлал ухарна.
  */
 void insert(struct List *p, int x, int pos) {
-	/* Энд оруулах үйлдлийг хийнэ үү */
-}
 
+	if (p->size > p->len || p->size < pos || pos < 0)
+		error = 1;
+	else {
+		struct List temp;
+		init(&temp, p->size);
+
+		for (int i = pos; i <= p->size; i++)
+			temp.dat[i] = p->dat[i];
+
+		for (int i = pos; i <= p->size; i++)
+			p->dat[pos+1] = temp.dat[pos];
+
+		p->size++;
+		p->dat[pos] = x;
+	}
+}
 
 /* p-ийн зааж буй List-н эхлэлээс гарган буцаана */
 int pop_front(struct List *p) {
-	/* Энд гаргах үйлдлийг хийнэ үү */
+	struct List temp;
+	init(&temp, p->size);
+
+	int result = p->dat[0];
+
+	for (int i = 0; i <= p->size; i++)
+		temp.dat[i]	= p->dat[i];
+
+	for (int i = 0; i <= p->size; i++)
+		p->dat[i] = temp.dat[i+1];
+
+	p->size--;
+	return result;
 }
 
 /* p-ийн зааж буй List-н төгсгөлөөс гарган буцаана */
 int pop_back(struct List *p) {
-	/* Энд гаргах үйлдлийг хийнэ үү */
+
+	int result = p->dat[p->size];									//need to delete p->size
+	p->size--;
+
+	return result;
 }
 
 /* p-ийн зааж буй List-н pos байралаас гарган буцаана.
@@ -220,7 +260,6 @@ int main() {
 			exit(0);
 		}
 	}
-	/* List-ийн эзэмшсэн нөөцийг чөлөөлөх */
 	release(&st);
 	return 0;
 }
