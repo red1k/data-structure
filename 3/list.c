@@ -34,33 +34,31 @@ int empty(struct List *p) {
 }
 /* p-ийн зааж буй List-д x утгыг төгсгөлд хийнэ */
 void push_back(struct List *p, int x) {
-	if (p->size > p->len)
+	if (p->size >= p->len)
 		error = 1;
 	else
 		p->dat[p->size++] = x;
 }
 
 void push_front(struct List *p, int x) {
-	if (p->size > p->len)
+	if (p->size >= p->len)
 		error = 1;
+	else if (p->size == 0) {
+		p->dat[0] = x;
+		p->size++;
+	}
 	else {
-		if (p->size == 0) {
-			p->dat[0] = x;
-			p->size++;
-		}
-		else {
-			struct List temp;
-			init(&temp, p->size);
+		struct List temp;
+		init(&temp, p->size);
 
-			for (int i = 0; i <= p->size; i++)					//copying List p's data to List temp
-				temp.dat[i] = p->dat[i];
+		for (int i = 0; i <= p->size; i++)					//copying List p's data to List temp
+			temp.dat[i] = p->dat[i];
 
-			for (int i = 1; i <= p->size; i++)
-				p->dat[i] = temp.dat[i-1];
+		for (int i = 1; i <= p->size; i++)
+			p->dat[i] = temp.dat[i-1];
 
-			p->dat[0] = x;
-			p->size++;
-		}
+		p->dat[0] = x;
+		p->size++;
 	}
 }
 
@@ -69,8 +67,11 @@ void push_front(struct List *p, int x) {
  */
 void insert(struct List *p, int x, int pos) {
 
-	if (p->size > p->len || p->size < pos || pos < 0)
+	if (p->size >= p->len)
 		error = 1;
+	else if (p->len < pos || p->size < pos) {
+		error = 2;
+	}											//ask GG what if pos is greater than size but smaller than len?
 	else {
 		struct List temp;
 		init(&temp, p->size);
@@ -88,12 +89,12 @@ void insert(struct List *p, int x, int pos) {
 
 /* p-ийн зааж буй List-н эхлэлээс гарган буцаана */
 int pop_front(struct List *p) {
-	struct List temp;
-	init(&temp, p->size);
 
-	if (p->size > p->len)
+	if (p->size == 0)
 		error = 1;
 	else {
+		struct List temp;
+		init(&temp, p->size);
 		int result = p->dat[0];
 
 		for (int i = 0; i <= p->size; i++)
@@ -110,10 +111,14 @@ int pop_front(struct List *p) {
 /* p-ийн зааж буй List-н төгсгөлөөс гарган буцаана */
 int pop_back(struct List *p) {
 
-	int result = p->dat[p->size];									//need to delete p->size
-	p->size--;
+	if (p->size == 0)
+		error = 1;
+	else {
+		int result = p->dat[p->size];			//need to delete p->size,
+		p->size--;								//return 0 all the time, need to fix this!
+		return result;
+	}
 
-	return result;
 }
 
 /* p-ийн зааж буй List-н pos байралаас гарган буцаана.
@@ -121,6 +126,25 @@ int pop_back(struct List *p) {
  */
 int erase(struct List *p, int pos) {
 
+	if (p->size == 0)
+		error = 2;
+	else if (p->size < pos)
+		error = 3;
+	else {
+
+		struct List temp;
+		init(&temp, p->size);
+		int current = p->dat[pos];
+
+		for (int i = pos; i <= p->size; i++)
+			temp.dat[i] = p->dat[i];
+
+		for (int i = pos; i <= p->size; i++)
+			p->dat[i] = temp.dat[i+1] ;
+
+		p->size--;
+		return current;
+	}
 }
 
 /* p-ийн зааж буй List-н утгуудыг хэвлэнэ */
@@ -135,7 +159,7 @@ int front(struct List *p) {
 }
 
 int back(struct List *p) {
-	return p->dat[p->size];
+	return p->dat[p->size--];
 }
 
 int size(struct List *p) {
@@ -146,11 +170,13 @@ int size(struct List *p) {
 
 int search(struct List *p, int x) {
 
-	int position = 0;
+	int position = 0;						//does not search first element of list!
 
-	for (int i = 0; i < p->size; i++) {
-		if (p->dat[i] == x)
+	for (int i = 0; i <= p->size; i++) {
+		if (p->dat[i] == x){
+			position++;
 			break;
+		}
 		position++;
 	}
 
