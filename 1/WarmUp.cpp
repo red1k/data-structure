@@ -65,10 +65,9 @@ int find(int a[], int n, int x) {
 
 	int location;
 	for (int i = 0; i < n; i++) {
-		if(a[i] == x) {
-			location = i+1;
+		if(a[i] == x)
 			break;	
-		}
+		location++;
 	}
 
 	if (location > 0)
@@ -138,6 +137,10 @@ int main() {
 	cout << "b array merged into d array: \n";
 	print(d, 8);
 	cout << endl;
+
+	cout << "Finding 3 from b array:  \n";
+	int result = find(b, 8, 3);
+	cout << result << endl;
 
 	cout << "d array is reversed: \n";
 	reverse(d, 8);
