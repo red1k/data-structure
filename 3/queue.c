@@ -13,68 +13,59 @@ const char error_msg[][50] = {
 	"Queue xooson!"
 };
 
-void init(struct Queue *p, int n)
-{
+void init(struct Queue *p, int n) {
 	p->len = n;
 	p->size = 0;
 	p->dat = (int *) malloc(sizeof(int) * n);
 }
 
-void release(struct Queue *p)
-{
+void release(struct Queue *p) {
 	free(p->dat);
 	p->dat = NULL;
 }
 /* p-ийн зааж буй Queue хоосон бол 1 үгүй бол 0-ийг буцаана */
-int empty(struct Queue *p)
-{
-	/* Энд хоосон эсэхийг шалгах үйлдлийг хийнэ */
+int empty(struct Queue *p) {
+
+	if (p->size == 0)
+		return 1;
+	return 0;
+
 }
 
 /* p-ийн зааж буй Queue-д x утгыг хийнэ */
-void push_back(struct Queue *p, int x)
-{
-	/* Энд оруулах үйлдлийг хийнэ үү */
+void push_back(struct Queue *p, int x) {
 }
 
 /* p-ийн зааж буй Queue-с гарган буцаана */
-int pop_front(struct Queue *p)
-{
-	/* Энд гаргах үйлдлийг хийнэ үү */
+int pop_front(struct Queue *p) {
 }
 
 /* p-ийн зааж буй Queue-н утгуудыг хэвлэнэ */
-void print(struct Queue *p)
-{
-	/* Энд хэвлэх үйлдлийг хийнэ үү */
+void print(struct Queue *p) {
 }
 
 /* p-ийн зааж буй Queue-н хамгийн эхний элементийн утгыг буцаана.
    Гаргах үйлдэл хийхгүй.
  */
-int front(struct Queue *p)
-{
+int front(struct Queue *p) {
 	
 }
 /* p-ийн зааж буй Queue-н хамгийн сүүлийн элементийн утгыг буцаана.
    Queue-д өөрчлөлт оруулахгүй.
  */
-int back(struct Queue *p)
-{
+int back(struct Queue *p) {
 	
 }
 /* p-ийн зааж буй Queue-д хэдэн элемент байгааг буцаана.
    Queue-д өөрчлөлт оруулахгүй.
  */
-int size(struct Queue *p)
-{
+int size(struct Queue *p) {
 	
 }
 
 
-int main()
-{
-	/* Queue үүсгэн, эхлүүлэх */
+int main() {
+
 	struct Queue st;
 	init(&st, 10);
 	int t, x;
@@ -132,7 +123,8 @@ int main()
 			exit(0);
 		}
 	}
-	/* Queue-ийн эзэмшсэн нөөцийг чөлөөлөх */
+
 	release(&st);
+
 	return 0;
 }
