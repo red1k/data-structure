@@ -91,16 +91,20 @@ int pop_front(struct List *p) {
 	struct List temp;
 	init(&temp, p->size);
 
-	int result = p->dat[0];
+	if (p->size > p->len)
+		error = 1;
+	else {
+		int result = p->dat[0];
 
-	for (int i = 0; i <= p->size; i++)
-		temp.dat[i]	= p->dat[i];
+		for (int i = 0; i <= p->size; i++)
+			temp.dat[i]	= p->dat[i];
 
-	for (int i = 0; i <= p->size; i++)
-		p->dat[i] = temp.dat[i+1];
+		for (int i = 0; i <= p->size; i++)
+			p->dat[i] = temp.dat[i+1];
 
-	p->size--;
-	return result;
+		p->size--;
+		return result;
+	}
 }
 
 /* p-ийн зааж буй List-н төгсгөлөөс гарган буцаана */
@@ -116,7 +120,7 @@ int pop_back(struct List *p) {
    pos болон түүнээс хойшхи элементүүд нэг байрлал урагшилна.
  */
 int erase(struct List *p, int pos) {
-	/* Энд гаргах үйлдлийг хийнэ үү */
+
 }
 
 /* p-ийн зааж буй List-н утгуудыг хэвлэнэ */
@@ -126,30 +130,33 @@ void print(struct List *p) {
 	}
 }
 
-/* p-ийн зааж буй List-н хамгийн эхний элементийн утгыг буцаана.
-   Гаргах үйлдэл хийхгүй.
- */
 int front(struct List *p) {
-	
-}
-/* p-ийн зааж буй List-н хамгийн сүүлийн элементийн утгыг буцаана.
-   List-д өөрчлөлт оруулахгүй.
- */
-int back(struct List *p) {
-	
-}
-/* p-ийн зааж буй List-д хэдэн элемент байгааг буцаана.
-   List-д өөрчлөлт оруулахгүй.
- */
-int size(struct List *p) {
-	
+	return p->dat[0];
 }
 
-/* p-ийн зааж буй List-с x тоог хайн олдсон байрлалаыг буцаана.
-   Олдохгүй бол -1 утгыг буцаана.
- */
+int back(struct List *p) {
+	return p->dat[p->size];
+}
+
+int size(struct List *p) {
+	if (p->size != 0)
+		return p->size;
+	return 0;
+}
+
 int search(struct List *p, int x) {
-	
+
+	int position = 0;
+
+	for (int i = 0; i < p->size; i++) {
+		if (p->dat[i] == x)
+			break;
+		position++;
+	}
+
+	if (position > 0)
+		return position;
+	return -1;
 }
 
 int main() {
