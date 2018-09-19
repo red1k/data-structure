@@ -70,8 +70,8 @@ void insert(struct List *p, int x, int pos) {
 	if (p->size >= p->len)
 		error = 1;
 	else if (p->len < pos || p->size < pos) {
-		error = 2;
-	}											//ask GG what if pos is greater than size but smaller than len?
+		error = 3;
+	}
 	else {
 		struct List temp;
 		init(&temp, p->size);
@@ -91,7 +91,7 @@ void insert(struct List *p, int x, int pos) {
 int pop_front(struct List *p) {
 
 	if (p->size == 0)
-		error = 1;
+		error = 2;
 	else {
 		struct List temp;
 		init(&temp, p->size);
@@ -112,10 +112,10 @@ int pop_front(struct List *p) {
 int pop_back(struct List *p) {
 
 	if (p->size == 0)
-		error = 1;
+		error = 2;
 	else {
-		int result = p->dat[p->size];			//need to delete p->size,
-		p->size--;								//return 0 all the time, need to fix this!
+		int result = p->dat[p->size-1];		//need to delete p->size,
+		p->size = p->size - 1;			//return 0 all the time, need to fix this!
 		return result;
 	}
 
@@ -149,17 +149,25 @@ int erase(struct List *p, int pos) {
 
 /* p-ийн зааж буй List-н утгуудыг хэвлэнэ */
 void print(struct List *p) {
-	for (int i = 0; i < p->size; i++) {
-		printf("List -> %d\n", p->dat[i]);
+	if (p->size == 0)
+		error = 1;
+	else {
+		for (int i = 0; i < p->size; i++)
+			printf("List -> %d\n", p->dat[i]);
 	}
 }
 
 int front(struct List *p) {
+	if (p->size == 0)
+		error = 2;
 	return p->dat[0];
 }
 
 int back(struct List *p) {
-	return p->dat[p->size--];
+	if (p->size == 0)
+		error = 2;
+	else
+		return p->dat[p->size-1];
 }
 
 int size(struct List *p) {
@@ -168,16 +176,16 @@ int size(struct List *p) {
 	return 0;
 }
 
-int search(struct List *p, int x) {
+int search(struct List *p, int x) {			//need to fix this shit!
 
-	int position = 0;						//does not search first element of list!
+	int position = 0;
 
 	for (int i = 0; i <= p->size; i++) {
 		if (p->dat[i] == x){
-			position++;
+			++position;
 			break;
 		}
-		position++;
+		++position;
 	}
 
 	if (position > 0)
@@ -287,7 +295,10 @@ int main() {
 				printf("%d utga %d bairlald oldloo\n", x, pos);
 			break;
 		case 12:
-			print(&st);
+			if (error)
+				printf("Aldaa: %s\n", error_msg[error]);
+			else
+				print(&st);
 			break;
 		default:
 			exit(0);
