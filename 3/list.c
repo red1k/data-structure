@@ -32,7 +32,7 @@ int empty(struct List *p) {
 		return 1;
 	return 0;
 }
-/* p-ийн зааж буй List-д x утгыг төгсгөлд хийнэ */
+
 void push_back(struct List *p, int x) {
 	if (p->size >= p->len)
 		error = 1;
@@ -62,9 +62,6 @@ void push_front(struct List *p, int x) {
 	}
 }
 
-/* p-ийн зааж буй List-д x утгыг pos байрлалд хийнэ
-   pos болон түүнээс хойшхи элементүүд нэг байрлал ухарна.
- */
 void insert(struct List *p, int x, int pos) {
 
 	if (p->size >= p->len)
@@ -87,7 +84,6 @@ void insert(struct List *p, int x, int pos) {
 	}
 }
 
-/* p-ийн зааж буй List-н эхлэлээс гарган буцаана */
 int pop_front(struct List *p) {
 
 	if (p->size == 0)
@@ -108,22 +104,16 @@ int pop_front(struct List *p) {
 	}
 }
 
-/* p-ийн зааж буй List-н төгсгөлөөс гарган буцаана */
 int pop_back(struct List *p) {
-
 	if (p->size == 0)
 		error = 2;
 	else {
-		int result = p->dat[p->size-1];		//need to delete p->size,
-		p->size = p->size - 1;			//return 0 all the time, need to fix this!
+		int result = p->dat[p->size-1];
+		p->size--;
 		return result;
 	}
-
 }
 
-/* p-ийн зааж буй List-н pos байралаас гарган буцаана.
-   pos болон түүнээс хойшхи элементүүд нэг байрлал урагшилна.
- */
 int erase(struct List *p, int pos) {
 
 	if (p->size == 0)
@@ -131,7 +121,6 @@ int erase(struct List *p, int pos) {
 	else if (p->size < pos)
 		error = 3;
 	else {
-
 		struct List temp;
 		init(&temp, p->size);
 		int current = p->dat[pos];
@@ -147,7 +136,6 @@ int erase(struct List *p, int pos) {
 	}
 }
 
-/* p-ийн зааж буй List-н утгуудыг хэвлэнэ */
 void print(struct List *p) {
 	if (p->size == 0)
 		error = 1;
@@ -176,25 +164,17 @@ int size(struct List *p) {
 	return 0;
 }
 
-int search(struct List *p, int x) {			//need to fix this shit!
-
-	int position = 0;
-
+int search(struct List *p, int x) {
 	for (int i = 0; i <= p->size; i++) {
-		if (p->dat[i] == x){
-			++position;
-			break;
-		}
-		++position;
+		if (p->dat[i] == x)
+			return i;
 	}
-
-	if (position > 0)
-		return position;
 	return -1;
 }
 
+
 int main() {
-	/* List үүсгэн, эхлүүлэх */
+
 	struct List st;
 	init(&st, 10);
 	int t, x, pos;
