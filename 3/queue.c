@@ -25,42 +25,61 @@ void release(struct Queue *p) {
 }
 /* p-ийн зааж буй Queue хоосон бол 1 үгүй бол 0-ийг буцаана */
 int empty(struct Queue *p) {
-
 	if (p->size == 0)
 		return 1;
 	return 0;
-
 }
 
-/* p-ийн зааж буй Queue-д x утгыг хийнэ */
 void push_back(struct Queue *p, int x) {
+	if (p->size >= p->len)
+		error = 1;
+	p->dat[p->size++] = x;
 }
 
-/* p-ийн зааж буй Queue-с гарган буцаана */
 int pop_front(struct Queue *p) {
+	if(p->size == 0)
+		error = 2;
+	else {
+		struct Queue temp;
+		init(&temp, p->size);
+		int result = p->dat[0];
+
+		for (int i = 0; i <= p->size; i++)
+			temp.dat[i] = p->dat[i];
+
+		for (int i = 0; i <= p->size; i++)
+			p->dat[i] = temp.dat[i+1];
+
+		p->size--;
+		return result;
+	}
 }
 
-/* p-ийн зааж буй Queue-н утгуудыг хэвлэнэ */
 void print(struct Queue *p) {
+	if(p->size == 0)
+		error = 2;
+	else {
+		for (int i = 0; i < p->size; i++)
+			printf("Queue -> %d\n", p->dat[i]);
+	}
 }
 
-/* p-ийн зааж буй Queue-н хамгийн эхний элементийн утгыг буцаана.
-   Гаргах үйлдэл хийхгүй.
- */
 int front(struct Queue *p) {
-	
+	if (p->size == 0)
+		error = 2;
+	return p->dat[0];
 }
-/* p-ийн зааж буй Queue-н хамгийн сүүлийн элементийн утгыг буцаана.
-   Queue-д өөрчлөлт оруулахгүй.
- */
+
 int back(struct Queue *p) {
-	
+	if (p->size == 0)
+		error = 2;
+	return p->dat[p->size-1];
 }
-/* p-ийн зааж буй Queue-д хэдэн элемент байгааг буцаана.
-   Queue-д өөрчлөлт оруулахгүй.
- */
+
 int size(struct Queue *p) {
-	
+	if (p->size == 0)
+		error = 2;
+	return p->size;
 }
 
 
@@ -78,6 +97,7 @@ int main() {
 
 		switch (t) {
 		case 1:
+			printf("Suuld oruulah utga: ");
 			scanf("%d", &x);
 			push_back(&st, x);
 			if (error) 
