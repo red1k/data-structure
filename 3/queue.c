@@ -6,6 +6,7 @@ struct Queue {
 	int *dat;
 	int size;
 };
+
 int error = 0;
 const char error_msg[][50] = {
 	"",
@@ -23,7 +24,7 @@ void release(struct Queue *p) {
 	free(p->dat);
 	p->dat = NULL;
 }
-/* p-ийн зааж буй Queue хоосон бол 1 үгүй бол 0-ийг буцаана */
+
 int empty(struct Queue *p) {
 	if (p->size == 0)
 		return 1;
