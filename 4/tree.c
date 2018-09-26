@@ -7,8 +7,6 @@
 	grand-parent										PARENT OF PARENT
 */
 
-//what is the difference between list and tree if there is no rigth or left nodes?
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -39,26 +37,24 @@ void release(struct Tree *p) {
    Олдохгүй бол -1 утгыг буцаана.
  */
 int search(struct Tree *p, int x) {
-	for (int i = 0; i < p->size; i++) {
-		if (p->dat[i] == x)
-			return i;
-	}
-	return -1;
 }
 
 /* p-ийн зааж буй Tree-ийн өндрийг буцаана */
 int height(struct Tree *p) {
-	/* Энд өндрийг олох үйлдлийг хийнэ */
+	int count = 0;
+
+	for (int i=0; i<p->size; i=2*i+1)
+		count++;
+
+	return count;
 }
 
 /* p-ийн зааж буй Tree-д x утгыг оруулна */
 void insert(struct Tree *p, int x) {
-	/* Энд оруулах үйлдлийг хийнэ үү */
 }
 
 /* p-ийн зааж буй Tree-с idx дугаартай зангилаанаас доошхи бүх навчийг олно */
 void leaves(struct Tree *p, int idx) {
-	/* Энд навчуудыг үйлдлийг хийнэ үү */
 }
 
 /* p-ийн зааж буй Tree-д idx зангилаанаас доошхи бүх үр садыг хэвлэнэ  */
@@ -130,7 +126,7 @@ int main() {
 
 		switch (t) {
 		case 1:
-			printf("Modnii undur: ", height(&tr));
+			printf("Modnii undur: %d\n", height(&tr));
 			break;
 		case 2:
 			printf("Oruulax utga: ");
