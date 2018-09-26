@@ -57,6 +57,7 @@ void push_front(struct List *p, int x) {
 		for (int i = 1; i <= p->size; i++)
 			p->dat[i] = temp.dat[i-1];
 
+		release(&temp);
 		p->dat[0] = x;
 		p->size++;
 	}
@@ -79,6 +80,7 @@ void insert(struct List *p, int x, int pos) {
 		for (int i = pos; i <= p->size; i++)
 			p->dat[pos+1] = temp.dat[pos];
 
+		release(&temp);
 		p->size++;
 		p->dat[pos] = x;
 	}
@@ -99,6 +101,7 @@ int pop_front(struct List *p) {
 		for (int i = 0; i <= p->size; i++)
 			p->dat[i] = temp.dat[i+1];
 
+		release(&temp);
 		p->size--;
 		return result;
 	}
@@ -131,6 +134,7 @@ int erase(struct List *p, int pos) {
 		for (int i = pos; i <= p->size; i++)
 			p->dat[i] = temp.dat[i+1] ;
 
+		release(&temp);
 		p->size--;
 		return current;
 	}
