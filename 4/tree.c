@@ -1,10 +1,10 @@
 /* 
 	root - modnii oroi, parent node baihgui 
-	children - downside 								NODE THAT HAS PARENT NODE
-	parent - upside										NODE THAT HAS CHILD NODE	
+	children - downside 					NODE THAT HAS PARENT NODE
+	parent - upside						NODE THAT HAS CHILD NODE	
 	sibling - zeregtsee node uud, neg parenttai 		NODE THAT HAS HAVE SAME PARENT 
 	leaves - child node baihgui node, tugsgul node		NODE THAT DOES NOT HAVE A CHILD 
-	grand-parent										PARENT OF PARENT
+	grand-parent						PARENT OF PARENT
 */
 
 #include <stdio.h>
@@ -17,6 +17,7 @@ struct Tree {
 };
 
 int error = 0;
+
 const char error_msg[][50] = {
 	"",
 	"Mod duuren!",
@@ -37,9 +38,14 @@ void release(struct Tree *p) {
    Олдохгүй бол -1 утгыг буцаана.
  */
 int search(struct Tree *p, int x) {
+	for (int i = 0; i < p->size; i++) {
+		if (p->dat[i] == x)
+			return i;
+	}
+	return -1;
 }
 
-/* p-ийн зааж буй Tree-ийн өндрийг буцаана */
+// p-ийн зааж буй Tree-ийн өндрийг буцаана
 int height(struct Tree *p) {
 	int count = 0;
 
@@ -49,58 +55,111 @@ int height(struct Tree *p) {
 	return count;
 }
 
-/* p-ийн зааж буй Tree-д x утгыг оруулна */
+// p-ийн зааж буй Tree-д x утгыг оруулна
 void insert(struct Tree *p, int x) {
+	if (p->size >= p->len)
+		error = 1;
+	p->dat[p->size++] = x;
 }
 
-/* p-ийн зааж буй Tree-с idx дугаартай зангилаанаас доошхи бүх навчийг олно */
+// p-ийн зааж буй Tree-с idx дугаартай зангилаанаас доошхи бүх навчийг олно
 void leaves(struct Tree *p, int idx) {
+
+	if (idx >= p->size)
+		return;
+
+	if (idx*2+1 >= p->size) {
+		printf("%d\n",p->dat[idx]);
+		return;
+	}
+
+	leaves(p, (2 * idx + 1));
+	leaves(p, (2 * (idx + 1)));
 }
 
-/* p-ийн зааж буй Tree-д idx зангилаанаас доошхи бүх үр садыг хэвлэнэ  */
-void descendants(struct Tree *p, int idx) {
-	/* Энд үр садыг олох үйлдлийг хийнэ үү */
-}
-
-
-/* p-ийн зааж буй Tree-д idx зангилаанаас дээшхи бүх өвөг эцэгийг олох үйлдлийг хийнэ */
-void ancestors(struct Tree *p, int idx) {
-	/* Энд өвөг эцгийг олох үйлдлийг хийнэ үү */
-}
 
 /* p-ийн зааж буй Tree-д idx зангилааны ах, дүүгийн зангилааны дугаарыг буцаана
    (Нэг эцэгтэй зангилаа). Байхгүй бол -1-г буцаана
  */
 int sibling(struct Tree *p, int idx) {
 	/* Энд ах, дүүг олох үйлдлийг хийнэ үү */
+	if (idx % 2 == 0 && idx <= p->size)
+		return --idx;
+	else if (idx % 2 != 0) {
+		idx++;
+		if (p->dat[idx] == 0)
+			return -1;
+		return idx;
+	}
 }
 
-/* p-ийн зааж буй Tree-д x утгатай зангилааны хүүхдүүдийн утгыг хэвлэ.
- */
+// p-ийн зааж буй Tree-д x утгатай зангилааны хүүхдүүдийн утгыг хэвлэ
 void children(struct Tree *p, int x) {
-	/* Энд хүүхдүүдийн утгыг хэвлэх үйлдлийг хийнэ үү */
+	int left = x * 2 + 1;
+	int right = x * 2 + 2;
+
+	if (p->dat[left] != 0)
+		printf("%d", p->dat[left]);
+	if (p->dat[right] != 0)
+		printf("%d", p->dat[right]);
 }
 
-/* p-ийн зааж буй Tree-г idx дугаартай зангилаанаас эхлэн preorder-оор хэвлэ */
+// p-ийн зааж буй Tree-г idx дугаартай зангилаанаас эхлэн preorder-оор хэвлэ
 void preorder(struct Tree *p, int idx) {
-	/* Энд pre-order-оор хэвлэх үйлдлийг хийнэ үү */
+
+	if (p->size <= idx)
+		return;
+
+	printf("%d", p->dat[idx]);		//printing
+	preorder(p, 2*idx+1);			//left
+	preorder(p, 2*(idx+1));			//right
 }
 
-/* p-ийн зааж буй Tree-г idx дугаартай зангилаанаас эхлэн in-order-оор хэвлэ */
+// p-ийн зааж буй Tree-г idx дугаартай зангилаанаас эхлэн in-order-оор хэвлэ
 void inorder(struct Tree *p, int idx) {
-	/* Энд in-order-оор хэвлэх үйлдлийг хийнэ үү */
+
+	if (p->size <= idx)
+		return;
+
+	inorder(p, 2*idx+1);			//left
+	printf("%d", p->dat[idx]);		//printing
+	inorder(p, 2*(idx+1));			//right
 }
 
-/* p-ийн зааж буй Tree-г idx дугаартай зангилаанаас эхлэн post-order-оор хэвлэ */
+// p-ийн зааж буй Tree-г idx дугаартай зангилаанаас эхлэн post-order-оор хэвлэ
 void postorder(struct Tree *p, int idx) {
-	/* Энд post-order-оор хэвлэх үйлдлийг хийнэ үү */
+
+	if (p->size <= idx)
+		return;
+
+	postorder(p, 2*idx+1);			//left
+	postorder(p, 2*(idx+1));		//right
+	printf("%d", p->dat[idx]);		//printing
 }
 
-/* p-ийн зааж буй Tree-д хэдэн элемент байгааг буцаана.
-   Tree-д өөрчлөлт оруулахгүй.
- */
+// p-ийн зааж буй Tree-д idx зангилаанаас доошхи бүх үр садыг хэвлэнэ
+void descendants(struct Tree *p, int idx) {
+
+	if (2*(idx+1) > p->size)
+		printf("No descendants");
+
+	postorder(p, 2*idx+1);
+	postorder(p, 2*(idx+1));
+}
+
+// p-ийн зааж буй Tree-д idx зангилаанаас дээшхи бүх өвөг эцэгийг олох үйлдлийг хийнэ
+void ancestors(struct Tree *p, int idx) {
+
+	if (idx == 1 || idx == 2) {
+		printf("%d", p->dat[0]);
+		return;
+	}
+	ancestors(p, (idx-1)/2);
+	printf("%d", p->dat[(idx-1)/2]);
+}
+
 int size(struct Tree *p) {
-	
+	return p->size;
 }
 
 
@@ -108,11 +167,10 @@ int size(struct Tree *p) {
    x тоо олдохгүй бол -1-г буцаана.
  */
 int level(struct Tree *p, int x) {
-	
+	return height(p) - 1;
 }
 
 int main() {
-	/* Tree үүсгэн, эхлүүлэх */
 	struct Tree tr;
 	init(&tr, 10);
 	int t, x, pos, idx;
