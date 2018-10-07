@@ -20,61 +20,48 @@ void init(struct Queue *p_qq, int n)
 }
 
 /* p-ийн зааж буй Queue хоосон бол 1 үгүй бол 0-ийг буцаана */
-int empty(struct Queue *p_qq)
-{
-	/* Энд хоосон эсэхийг шалгах үйлдлийг хийнэ */
+int empty(struct Queue *p_qq) {
 }
 
 /* p-ийн зааж буй Queue-д x утгыг хийнэ */
-void push_back(struct Queue *p_qq, int x)
-{
-	/* Энд оруулах үйлдлийг хийнэ үү */
+void push_back(struct Queue *p_qq, int x) {
 }
 
 /* p-ийн зааж буй Queue-с гарган буцаана */
-int pop_front(struct Queue *p_qq)
-{
-	/* Энд гаргах үйлдлийг хийнэ үү */
+int pop_front(struct Queue *p_qq) {
 }
 
 /* p-ийн зааж буй Queue-н утгуудыг хэвлэнэ */
-void print(struct Queue *p_qq)
-{
-	/* Энд хэвлэх үйлдлийг хийнэ үү */
+void print(struct Queue *p_qq) {
 }
 
 /* p-ийн зааж буй Queue-н хамгийн эхний элементийн утгыг буцаана.
    Гаргах үйлдэл хийхгүй.
  */
-int front(struct Queue *p_qq)
-{
+int front(struct Queue *p_qq) {
 	
 }
 /* p-ийн зааж буй Queue-н хамгийн сүүлийн элементийн утгыг буцаана.
    Queue-д өөрчлөлт оруулахгүй.
  */
-int back(struct Queue *p_qq)
-{
+int back(struct Queue *p_qq) {
 	
 }
 /* p-ийн зааж буй Queue-д хэдэн элемент байгааг буцаана.
    Queue-д өөрчлөлт оруулахгүй.
  */
-int size(struct Queue *p_qq)
-{
+int size(struct Queue *p_qq) {
 	
 }
 
-void release(struct Queue *p_qq)
-{
+void release(struct Queue *p_qq) {
 	while (empty(p_qq) == 0)
 		pop_front(p_qq);
 }
 
 
-int main()
-{
-	/* Queue үүсгэн, эхлүүлэх */
+int main() {
+
 	struct Queue st;
 	init(&st, 10);
 	int t, x;
@@ -132,7 +119,8 @@ int main()
 			exit(0);
 		}
 	}
-	/* Queue-ийн эзэмшсэн нөөцийг чөлөөлөх */
+
 	release(&st);
+
 	return 0;
 }

@@ -15,45 +15,34 @@ const char error_msg[][50] = {
 	"Stack xooson!"
 };
 
-void init(struct Stack *p_stk, int n)
-{
+void init(struct Stack *p_stk, int n) {
 	p_stk->top = NULL;
 }
 
 /* p-ийн зааж буй Stack хоосон бол 1 үгүй бол 0-ийг буцаана */
-int empty(struct Stack *p_stk)
-{
-	/* Энд хоосон эсэхийг шалгах үйлдлийг хийнэ */
+int empty(struct Stack *p_stk) {
 }
 
 /* p-ийн зааж буй Stack-д x утгыг хийнэ */
-void push(struct Stack *p_stk, int x)
-{
-	/* Энд оруулах үйлдлийг хийнэ үү */
+void push(struct Stack *p_stk, int x) {
 }
 
 /* p-ийн зааж буй Stack-с гарган буцаана */
-int pop(struct Stack *p_stk)
-{
-	/* Энд гаргах үйлдлийг хийнэ үү */
+int pop(struct Stack *p_stk) {
 }
 
 /* p-ийн зааж буй Stack-н утгуудыг хэвлэнэ */
-void print(struct Stack *p_stk)
-{
-	/* Энд хэвлэх үйлдлийг хийнэ үү */
+void print(struct Stack *p_stk) {
 }
 
-void release(struct Stack *p_stk)
-{
+void release(struct Stack *p_stk) {
 	while (empty(p_stk))
 		pop(p_stk);
 }
 
 
-int main()
-{
-	/* Stack үүсгэн, эхлүүлэх */
+int main() {
+
 	struct Stack st;
 	init(&st, 10);
 	int t, x;
@@ -92,7 +81,8 @@ int main()
 			exit(0);
 		}
 	}
-	/* Stack-ийн эзэмшсэн нөөцийг чөлөөлөх */
+
 	release(&st);
+
 	return 0;
 }
