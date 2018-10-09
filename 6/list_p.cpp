@@ -73,6 +73,22 @@ void push_front(struct List *p_list, int x) {
    pos болон түүнээс хойшхи элементүүд нэг байрлал ухарна.
  */
 void insert(struct List *p_list, int x, int pos) {
+
+	struct Node *temp = new Node();
+	struct Node *prev = new Node();
+	struct Node *new_node = new Node();
+	
+	temp = p_list->head;
+	new_node->data = x;
+
+	for (int i = 0; i < pos-1; i++)
+		temp = temp->next;		
+
+	prev->next = temp->next;
+	temp->next = new_node;
+	new_node->next = prev->next; 
+
+	p_list->length++;
 }
 
 
@@ -84,34 +100,53 @@ int pop_front(struct List *p_list) {
 
 	temp = p_list->head;
 	result = temp->data;
-/*
 	p_list->head = temp->next;
 	p_list->length--;
+
 	delete temp;
-*/
+
 	return result;
 }
 
 /* p-ийн зааж буй List-н төгсгөлөөс гарган буцаана */
 int pop_back(struct List *p_list) {
 
-	struct Node *temp = new Node();
+	struct Node *temp = new Node(); 
 	int result;
 
+	temp = p_list->head;
+
+	for (int i = 0; i < p_list->length-2; i++)
+		temp = temp->next;	
+
+	result = temp->next->data;
 	temp = p_list->tail;
-	result = temp->data;
 
-	p_list->tail;
-	p_list->length--;
-	delete temp;
-
+	free(temp);
+	
 	return result;
+
 }
 
 /* p-ийн зааж буй List-н pos байралаас гарган буцаана.
    pos болон түүнээс хойшхи элементүүд нэг байрлал урагшилна.
  */
 int erase(struct List *p_list, int pos) {
+
+	struct Node *temp = new Node();
+	struct Node *next = new Node();
+
+	temp = p_list->head;
+
+	for (int i = 0; temp != NULL && i < pos-1; i++)
+		temp = temp->next;
+
+	int result = temp->next->data;
+
+	next = temp->next->next;
+	delete temp->next;
+	temp->next = next;
+	return result;
 }
 
 /* p-ийн зааж буй List-н утгуудыг хэвлэнэ */
@@ -147,7 +182,23 @@ int size(struct List *p_list) {
    Олдохгүй бол -1 утгыг буцаана.
  */
 int search(struct List *p_list, int x) {
+
+	struct Node *temp = new Node();
+	int position = 0;
+
+	temp = p_list->head;
 	
+	while(temp != NULL) {
+		if (x == temp->data)
+			position++;
+		temp = temp->next;
+	}
+
+	delete temp;
+
+	if (position > 0)
+		return position;
+	return -1;
 }
 
 void release(struct List *p_list) {
