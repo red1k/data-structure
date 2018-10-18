@@ -65,15 +65,27 @@ void heapin(struct Heap *p, int x) {
 
 /* p-ийн зааж буй Heap-с үндэс дээр байгаа утгыг гаргана. */
 int heapout(struct Heap *p) {
+
+	int result = p->dat[0];
+	struct Heap temp;
+	init(&temp, p->size);
+
+	for (int i = 0; i < p->size; i++)
+		temp.dat[i] = p->dat[i];
+	for (int i = 0; i < p->size; i++)
+		p->dat[i] = temp.dat[i+1];
+
+	p->size--;
+
+	release(&temp);
+	return result;
 }
 
 int main() {
 
 	struct Heap tr;
 	init(&tr, 10);
-	int t, x, pos, idx;
-	int test = parent(3);
-	cout << test << endl;
+	int t, x;
 
 	while (1) {
 		printf("1: heapin, 2: heapout, 3: print\n");
