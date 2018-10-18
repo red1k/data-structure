@@ -28,12 +28,39 @@ void release(struct Heap *p) {
 	p->dat = NULL;
 }
 
-//	parent = (p->size-1)/2
+int parent(int i) {
+	return (i-1)/2;
+}
 
-/* p-ийн зааж буй Heap-д x утгыг оруулна */
+int leftchild(int i) {
+	return 2*i+1;
+}
+
+int rightchild(int i) {
+	return 2*i+2;
+}
+
+void swap(int *x, int *y) {
+	int temp = *x;
+	*x = *y;
+	*y = temp;
+}
+
+void print(struct Heap *p) {
+	for (int i = 0; i < p->size; i++)
+		cout << "Heap-> " << p->dat[i] << endl;
+}
 void heapin(struct Heap *p, int x) {
-	p->dat[p->size++] = x;
-	while(p->dat[(p->size-1)/2])
+
+	p->dat[p->size] = x;
+	p->size++;
+	int temp = p->size-1;
+
+	while(p->size != 0 && p->dat[temp] < p->dat[parent(temp)]) {
+		swap(&p->dat[parent(temp)], &p->dat[]);
+		temp = parent(temp);
+	}
+
 }
 
 /* p-ийн зааж буй Heap-с үндэс дээр байгаа утгыг гаргана. */
@@ -45,9 +72,11 @@ int main() {
 	struct Heap tr;
 	init(&tr, 10);
 	int t, x, pos, idx;
+	int test = parent(3);
+	cout << test << endl;
 
 	while (1) {
-		printf("1: heapin, 2: heapout, 3: exit");
+		printf("1: heapin, 2: heapout, 3: print\n");
 		scanf("%d", &t);
 		error = 0;
 
@@ -69,6 +98,10 @@ int main() {
 			else
 				printf("%d utga garlaa\n", x);
 			break;
+
+		case 3:
+			print(&tr);
+		break;
 
 		default:
 			exit(0);
