@@ -57,10 +57,10 @@ void heapin(struct Heap *p, int x) {
 	int temp = p->size-1;
 
 	while(p->size != 0 && p->dat[temp] < p->dat[parent(temp)]) {
-		swap(&p->dat[parent(temp)], &p->dat[]);
+		swap(&p->dat[parent(temp)], &p->dat[temp]);	
 		temp = parent(temp);
 	}
-
+	
 }
 
 /* p-ийн зааж буй Heap-с үндэс дээр байгаа утгыг гаргана. */
