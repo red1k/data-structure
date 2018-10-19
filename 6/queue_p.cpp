@@ -56,7 +56,7 @@ void push_back(struct Queue *p_qq, int x) {
 /* p-ийн зааж буй Queue-с гарган буцаана */
 int pop_front(struct Queue *p_qq) {
 
-	struct Node *temp = new Node();
+	struct Node *temp;
 	int result;
 
 	temp = p_qq->head;
@@ -65,19 +65,22 @@ int pop_front(struct Queue *p_qq) {
 	p_qq->length--;
 
 	delete temp;
+
 	return result;
 
 }
 
 /* p-ийн зааж буй Queue-н утгуудыг хэвлэнэ */
 void print(struct Queue *p_qq) {
-	struct Node *temp = new Node();
+	struct Node *temp;
 	temp = p_qq->head;
 
 	while(temp != NULL) {
 		cout << temp->data << endl;
 		temp = temp->next;
 	}
+
+	free(temp);
 }
 
 /* p-ийн зааж буй Queue-н хамгийн эхний элементийн утгыг буцаана.

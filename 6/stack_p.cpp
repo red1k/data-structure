@@ -48,7 +48,7 @@ void push(struct Stack *p_stk, int x) {
 /* p-ийн зааж буй Stack-с гарган буцаана */
 int pop(struct Stack *p_stk) {
 
-	struct Node *temp = new Node();
+	struct Node *temp;
 	temp = p_stk->top;
 	int result = temp->data;
 
@@ -67,13 +67,15 @@ int pop(struct Stack *p_stk) {
 /* p-ийн зааж буй Stack-н утгуудыг хэвлэнэ */
 void print(struct Stack *p_stk) {
 
-	struct Node *temp = new Node();
+	struct Node *temp;
 	temp = p_stk->top;
 
 	while(temp != NULL) {
 		cout << temp->data << endl;
 		temp = temp->next;
 	}
+
+	free(temp);
 
 }
 
