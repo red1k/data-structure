@@ -57,7 +57,7 @@ void push_front(struct List *p_list, int x) {
 	new_node->data = x;
 
 	if (p_list->head == NULL) {
-		new_node->next = p_list->head;
+		new_node->next = NULL;
 		p_list->head =  new_node;
 		p_list->tail =  new_node;
 	}
@@ -74,8 +74,8 @@ void push_front(struct List *p_list, int x) {
  */
 void insert(struct List *p_list, int x, int pos) {
 
-	struct Node *temp = new Node();
-	struct Node *prev = new Node();
+	struct Node *temp;// = new Node();
+	struct Node *prev;// = new Node();
 	struct Node *new_node = new Node();
 	
 	temp = p_list->head;
@@ -84,9 +84,9 @@ void insert(struct List *p_list, int x, int pos) {
 	for (int i = 0; i < pos-1; i++)
 		temp = temp->next;		
 
-	prev->next = temp->next;
+	prev = temp->next;
 	temp->next = new_node;
-	new_node->next = prev->next; 
+	new_node->next = prev;
 
 	p_list->length++;
 }
@@ -95,7 +95,7 @@ void insert(struct List *p_list, int x, int pos) {
 /* p-ийн зааж буй List-н эхлэлээс гарган буцаана */
 int pop_front(struct List *p_list) {
 
-	struct Node *temp = new Node();
+	struct Node *temp;
 	int result;
 
 	temp = p_list->head;
@@ -104,28 +104,37 @@ int pop_front(struct List *p_list) {
 	p_list->length--;
 
 	delete temp;
-
 	return result;
 }
 
 /* p-ийн зааж буй List-н төгсгөлөөс гарган буцаана */
 int pop_back(struct List *p_list) {
 
-	struct Node *temp = new Node(); 
+	struct Node *temp;
 	int result;
 
 	temp = p_list->head;
 
-	for (int i = 0; i < p_list->length-2; i++)
-		temp = temp->next;	
+	if(p_list->head == NULL)
+		error = 1;
 
-	result = temp->next->data;
-	temp = p_list->tail;
+	else if(p_list->length == 1)
+		return pop_front(p_list);
 
-	free(temp);
-	
-	return result;
+	else {
+		for (int i = 0; i < p_list->length-2; i++)
+			temp = temp->next;
 
+		result = temp->next->data;
+		p_list->tail = temp;
+
+		delete temp->next;
+
+		p_list->tail->next = NULL;
+		p_list->length--;
+
+		return result;
+	}
 }
 
 /* p-ийн зааж буй List-н pos байралаас гарган буцаана.
@@ -133,33 +142,40 @@ int pop_back(struct List *p_list) {
  */
 int erase(struct List *p_list, int pos) {
 
-	struct Node *temp = new Node();
-	struct Node *next = new Node();
+	struct Node *temp, *next;
+	int result;
 
-	temp = p_list->head;
+	if (pos == 0)
+		return pop_front(p_list);
 
-	for (int i = 0; temp != NULL && i < pos-1; i++)
-		temp = temp->next;
+	else if (pos == p_list->length)
+		return pop_back(p_list);
 
-	int result = temp->next->data;
+	else {
+		temp = p_list->head;
+		for (int i = 0; i < pos-1; i++)
+			temp = temp->next;
 
-	next = temp->next->next;
-	delete temp->next;
-	temp->next = next;
-	return result;
+		result = temp->next->data;
+		next = temp->next->next;
+		delete temp->next;
+		temp->next = next;
+
+		return result;
+	}
 }
 
 /* p-ийн зааж буй List-н утгуудыг хэвлэнэ */
 void print(struct List *p_list) {
 
-	struct Node *temp = new Node();
+	struct Node *temp;
 	temp = p_list->head;
 
 	while(temp != NULL) {
 		cout << temp->data << endl;
 		temp = temp->next;
 	}
-
+	free(temp);
 }
 
 int front(struct List *p_list) {
@@ -183,7 +199,7 @@ int size(struct List *p_list) {
  */
 int search(struct List *p_list, int x) {
 
-	struct Node *temp = new Node();
+	struct Node *temp;
 	int position = 0;
 
 	temp = p_list->head;
@@ -194,7 +210,7 @@ int search(struct List *p_list, int x) {
 		temp = temp->next;
 	}
 
-	delete temp;
+	free(temp);
 
 	if (position > 0)
 		return position;
