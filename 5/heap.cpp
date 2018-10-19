@@ -32,11 +32,11 @@ int parent(int i) {
 	return (i-1)/2;
 }
 
-int leftchild(int i) {
+int left(int i) {
 	return 2*i+1;
 }
 
-int rightchild(int i) {
+int right(int i) {
 	return 2*i+2;
 }
 
@@ -56,7 +56,7 @@ void heapin(struct Heap *p, int x) {
 	p->size++;
 	int temp = p->size-1;
 
-	while(p->size != 0 && p->dat[temp] < p->dat[parent(temp)]) {
+	while(temp != 0 && p->dat[temp] < p->dat[parent(temp)]) {
 		swap(&p->dat[parent(temp)], &p->dat[temp]);
 		temp = parent(temp);
 	}
@@ -66,18 +66,12 @@ void heapin(struct Heap *p, int x) {
 /* p-ийн зааж буй Heap-с үндэс дээр байгаа утгыг гаргана. */
 int heapout(struct Heap *p) {
 
+	/*
 	int result = p->dat[0];
-	struct Heap temp;
-	init(&temp, p->size);
-
-	for (int i = 0; i < p->size; i++)
-		temp.dat[i] = p->dat[i];
-	for (int i = 0; i < p->size; i++)
-		p->dat[i] = temp.dat[i+1];
-
+	p->dat[0] = p->dat[p->size-1];
 	p->size--;
+	*/
 
-	release(&temp);
 	return result;
 }
 
