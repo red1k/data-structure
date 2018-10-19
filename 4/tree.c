@@ -9,12 +9,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 struct Tree {
 	int len;  // Нийт багтаамж
 	int size; // Одоогийн хэмжээ
 	int *dat; // Өгөгдөл хадгалах хүснэгтийг заах хаяг
 };
+
+int check(struct Tree *p, int x);
 
 int error = 0;
 
@@ -167,7 +170,17 @@ int size(struct Tree *p) {
    x тоо олдохгүй бол -1-г буцаана.
  */
 int level(struct Tree *p, int x) {
-	return height(p) - 1;
+	return (int)log2(check(p,x)+1);
+}
+
+int check(struct Tree *p, int x){
+	int index;
+	for(int i = 0 ; i<= p->size; i++){
+		if(p->dat[i] == x){
+			index = i;
+		}
+	}
+return index;
 }
 
 int main() {
@@ -244,6 +257,7 @@ int main() {
 			printf("Utga oruul: ");
 			scanf("%d", &x);
 			printf("%d utgiin tuwshin: %d\n", x, level(&tr, x));
+			break;
 		default:
 			exit(0);
 		}
