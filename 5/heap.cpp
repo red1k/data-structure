@@ -66,13 +66,44 @@ void heapin(struct Heap *p, int x) {
 /* p-ийн зааж буй Heap-с үндэс дээр байгаа утгыг гаргана. */
 int heapout(struct Heap *p) {
 
-	/*
-	int result = p->dat[0];
-	p->dat[0] = p->dat[p->size-1];
-	p->size--;
-	*/
+	if (p->size == 0)
+		error = 2;
 
-	return result;
+	else {
+		int result = p->dat[0];
+		int i = 0;
+
+		p->dat[0] = p->dat[p->size-1];
+		p->size--;
+
+		while (p->size > 0 && p->size > left(i)) {
+			if (p->dat[i] > p->dat[left(i)]) {
+				if (right(i) > p->size) {
+					swap(p->dat[i], p->dat[left(i)]);
+					i = left(i);
+				}
+				else if (p->dat[left(i)] > p->dat[right(i)]) {
+					swap(p->dat[i], p->dat[right(i)]);
+					i = right(i);
+				}
+				else {
+					swap(p->dat[i], p->dat[left(i)]);
+					i = left(i);
+				}
+			}
+			else if (p->dat[i] < p->dat[left(i)]) {
+				if (right(i) > p->size)
+					return 0;
+				else if (p->dat[i] > p->dat[right(i)]) {
+					swap(p->dat[i], p->dat[right(i)]);
+					i = right(i);
+				}
+				i = right(i);
+			}
+
+		}
+		return result;
+	}
 }
 
 int main() {
