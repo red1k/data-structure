@@ -1,51 +1,74 @@
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 
 using namespace std;
 
-struct Elm {
-	int x;
-	struct Elm *l, *r;
-};
-
-typedef struct Elm Elm;
+typedef struct Elm {
+	int data;
+	struct Elm *left, *right;
+} Elm;
 
 Elm *root;
+int counter = 0;
 /*
   root-ийн зааж буй хаяг дээр үндэстэй модонд x утгыг оруулна.
   Амжилттай оруулбал x-г хадгалсан Elm хаягийг буцаана.
   Үгүй бол NULL буцна.
  */
 Elm *insert(Elm *root, int x) {
-	
+
+	counter++;
+
+	if (root == NULL) {
+		Elm *new_elm = new Elm();
+		new_elm->data = x;
+		new_elm->left = new_elm->right = NULL;
+		return new_elm;
+	}
+
+	if (root->data >= x) {
+		root->left = insert(root->left, x);
+		return root->left;
+	}
+
+	else if (root->data < x) {
+		root->right = insert(root->right, x);
+		return root->right;
+	}
 }
 
 /*
   root-ийн зааж буй хаяг дээр үндэстэй модноос x утгыг гаргана.
   Амжилттай гаргавал 1, үгүй бол 0 буцна.
  */
-int deletee(Elm *root, int x) {
+int deletion(Elm *root, int x) {
 	
 }
 /*
   root-ийн зааж буй хаяг дээр үндэстэй модыг inorder-оор хэвлэнэ.
  */
 void inorder(Elm *root) {
-	
+
+	if (root != NULL) {
+		inorder(root->left);
+		cout << "root-> " << root->data << endl;
+		inorder(root->right);
+	}
+
 }
 
 /*
   root-ийн зааж буй хаяг дээр үндэстэй модноос x утгыг хайна.
   Олдвол олдсон Elm хаягийг буцаана. Үгүй бол NULL буцаана.
  */
-Elm *search(Elm *root, int x) {
+Elm *search(Elm *root, int data) {
 	
 }
 /*
   root-ийн зааж буй хаяг дээр үндэстэй модыг тэр чигээр нь чөлөөлнө.
  */
 void release(Elm *root) {
-	
 }
 
 int main() {
@@ -68,7 +91,7 @@ int main() {
 		case 2:
 			printf("Ustgax utga: ");
 			scanf("%d", &x);
-			if (deletee(root, x))
+			if (deletion(root, x))
 				printf("%d utga ustlaa\n", x);
 			else
 				printf("Aldaa: ustgaj chadsangui\n");
