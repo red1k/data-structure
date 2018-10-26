@@ -34,14 +34,15 @@ int empty(struct List *p) {
 }
 
 void push_back(struct List *p, int x) {
-	if (p->size >= p->len)
-		error = 1;
+	if (p->size < p->len)
+		p->dat[p->size] = x;
+		p->size++;
 	else
-		p->dat[p->size++] = x;
+		error = 1;
 }
 
 void push_front(struct List *p, int x) {
-	if (p->size >= p->len)
+	/*if (p->size < p->len)
 		error = 1;
 	else if (p->size == 0) {
 		p->dat[0] = x;
@@ -60,7 +61,15 @@ void push_front(struct List *p, int x) {
 		release(&temp);
 		p->dat[0] = x;
 		p->size++;
-	}
+	}*/
+	int i;
+	if(p->size < p->len){
+		for(i = p->size - 1; i >= 0; i--){
+			p->dat[i+1] = p->dat[i];
+		}	
+		p->dat[0] = x;
+		p->size++;
+	error = 1;
 }
 
 void insert(struct List *p, int x, int pos) {
