@@ -4,21 +4,16 @@
 
 using namespace std;
 
-typedef struct Elm {
+struct Elm {
 	int data;
 	struct Elm *left, *right;
-} Elm;
+}; 
+
+typedef struct Elm Elm;
 
 Elm *root;
-int counter = 0;
-/*
-  root-ийн зааж буй хаяг дээр үндэстэй модонд x утгыг оруулна.
-  Амжилттай оруулбал x-г хадгалсан Elm хаягийг буцаана.
-  Үгүй бол NULL буцна.
- */
-Elm *insert(Elm *root, int x) {
 
-	counter++;
+Elm *insert(Elm *root, int x) {
 
 	if (root == NULL) {
 		Elm *new_elm = new Elm();
@@ -27,35 +22,12 @@ Elm *insert(Elm *root, int x) {
 		return new_elm;
 	}
 
-	if (root->data >= x) {
+	if (root->data >= x)
 		root->left = insert(root->left, x);
-		return root->left;
-	}
-
-	else if (root->data < x) {
+	else
 		root->right = insert(root->right, x);
-		return root->right;
-	}
-}
 
-/*
-  root-ийн зааж буй хаяг дээр үндэстэй модноос x утгыг гаргана.
-  Амжилттай гаргавал 1, үгүй бол 0 буцна.
- */
-int deletion(Elm *root, int x) {
-	
-}
-/*
-  root-ийн зааж буй хаяг дээр үндэстэй модыг inorder-оор хэвлэнэ.
- */
-void inorder(Elm *root) {
-
-	if (root != NULL) {
-		inorder(root->left);
-		cout << "root-> " << root->data << endl;
-		inorder(root->right);
-	}
-
+	return root;
 }
 
 /*
@@ -63,12 +35,111 @@ void inorder(Elm *root) {
   Олдвол олдсон Elm хаягийг буцаана. Үгүй бол NULL буцаана.
  */
 Elm *search(Elm *root, int data) {
+
+	if (root == NULL || root->data == data)
+		return root;
+
+	if (root->data < data) {
+		if (root->right == NULL)
+			return NULL;
+		return search(root->right, data);
+	}
+	else  {
+		if (root->left == NULL)
+			return NULL;
+		return search(root->left, data);
+	}
+
+}
+
+/*
+  root-ийн зааж буй хаяг дээр үндэстэй модноос x утгыг гаргана.
+  Амжилттай гаргавал 1, үгүй бол 0 буцна.
+ */
+int deletion(Elm *root, int x) {
+
+	Elm *parent = NULL;
+	Elm *current = new Elm();
+	current = root;
+
+	while (current != NULL && current->data != x) {
+		parent = current;
+		if (x <= current->data)
+			current = current->left;
+		else
+			current = current->right;
+	}
+
+	if (current == NULL) return 0;
+
+	else if (current->left == NULL && current->right == NULL) {
+		if (current != root) {
+			if (parent->right == current)
+				parent->right = NULL;
+			else
+				parent->left = NULL;
+		}
+		else 
+			root = NULL;
+		delete current;
+	}
+
+	else if (current->left && current->right) {
+
+		Elm *temp = new Elm();
+		temp = current;
+
+		while (temp->left != NULL)
+			temp = temp->left;
+
+		current->data = temp->data;
+
+		current->left = nullptr;
+		delete temp;
+
+	}
+
+	else {
+
+		Elm *temp = new Elm();
+
+		if (current->left) {
+			temp = current->left;
+			current->data = temp->data;
+			current->left = nullptr;
+			delete temp;
+		}
+		else {
+			temp = current->right;
+			current->data = temp->data;
+			current->right = nullptr;
+			delete temp;
+		}
+
+	}
+	return 1;
 	
+}
+/*
+  root-ийн зааж буй хаяг дээр үндэстэй модыг inorder-оор хэвлэнэ.
+ */
+void inorder(Elm *root) {
+
+	if (root == NULL) return;
+
+	inorder(root->left);
+	cout << "root-> " << root->data << endl;
+	inorder(root->right);
+
 }
 /*
   root-ийн зааж буй хаяг дээр үндэстэй модыг тэр чигээр нь чөлөөлнө.
  */
 void release(Elm *root) {
+	/*
+	while (root != NULL) {
+	}
+	*/
 }
 
 int main() {
@@ -82,9 +153,9 @@ int main() {
 		case 1:
 			printf("Oruulax utga: ");
 			scanf("%d", &x);
-			p = insert(root, x);
+			p = root = insert(root, x);
 			if (p)
-				printf("%d utga %x xaygt orloo\n", x, p);
+				printf("%d utga %p xaygt orloo\n", x, p);
 			else
 				printf("Aldaa: oruulj chadsangui\n");
 			break;
@@ -104,7 +175,7 @@ int main() {
 			scanf("%d", &x);
 			p = search(root, x);
 			if (p) 
-				printf("%x utga %x xayt oldloo\n", p);
+				printf("%d utga %p xayt oldloo\n", x, p);
 			else
 				printf("%d utga oldsongui\n", x);
 			break;
