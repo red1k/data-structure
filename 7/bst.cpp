@@ -136,10 +136,14 @@ void inorder(Elm *root) {
   root-ийн зааж буй хаяг дээр үндэстэй модыг тэр чигээр нь чөлөөлнө.
  */
 void release(Elm *root) {
-	/*
+
 	while (root != NULL) {
+		release(root->left);
+		release(root->right);
+		root = nullptr;
+		delete root;
 	}
-	*/
+
 }
 
 int main() {
