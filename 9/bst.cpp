@@ -52,27 +52,28 @@ Elm *insert(Elm *root, int x) {
 	int check = balance(root);
 
 	if (check > 1 && root->left->data > x) {
-		Elm *temp_l = new Elm();
-		Elm *temp_r = new Elm();
 
-		/*
-		temp_r = root->left;	
-		temp_l = root->left->left;
+		Elm *temp = root;
+		Elm *temp_l = root->left;
 
-		root = temp_r;
-		root->left = temp_l;
-		root->right = temp_r;
-		*/
+		root = temp_l;
+		root->right = temp;
+		root->left = temp_l->left;;
 
 		cout << "left side is heavy" << endl;
+		cout << "root: " << root->data << endl;
+		cout << "root->right->data is: " << root->right->data << endl;
+		cout << "root->left->data is: "<< root->left->data << endl;
+
+		//need to update height as well!
+
 	}
 	if (check < -1 && root->right->data < x)
 		cout << "right side is heavy" << endl;
 	if (check > 1 && root->left->data < x)
 		cout << "left-right side" << endl;
 	if (check < -1 && root->right->data > x)
-		cout << "right-left side is heavy" << endl;
-
+		cout << "right-left side" << endl;
 
 
 	return root;
