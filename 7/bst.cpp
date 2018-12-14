@@ -30,10 +30,6 @@ Elm *insert(Elm *root, int x) {
 	return root;
 }
 
-/*
-  root-ийн зааж буй хаяг дээр үндэстэй модноос x утгыг хайна.
-  Олдвол олдсон Elm хаягийг буцаана. Үгүй бол NULL буцаана.
- */
 Elm *search(Elm *root, int data) {
 
 	if (root == NULL || root->data == data)
@@ -58,9 +54,8 @@ Elm *search(Elm *root, int data) {
  */
 int deletion(Elm *root, int x) {
 
-	Elm *parent = NULL;
-	Elm *current = new Elm();
-	current = root;
+	Elm *parent;
+	Elm *current = root;
 
 	while (current != NULL && current->data != x) {
 		parent = current;
@@ -81,48 +76,48 @@ int deletion(Elm *root, int x) {
 		}
 		else 
 			root = NULL;
+
 		delete current;
 	}
 
 	else if (current->left && current->right) {
 
-		Elm *temp = new Elm();
-		temp = current;
-
+		Elm *temp = current->right;
+		
 		while (temp->left != NULL)
 			temp = temp->left;
 
 		current->data = temp->data;
 
-		current->left = nullptr;
-		delete temp;
+		deletion(current->right, temp->data);
+
+		current->right = nullptr;
+		delete current->right;
 
 	}
 
 	else {
 
-		Elm *temp = new Elm();
-
-		if (current->left) {
-			temp = current->left;
-			current->data = temp->data;
-			current->left = nullptr;
-			delete temp;
+		Elm *temp = (current->left) ? current->left : current->right;
+		
+		if (current != root) {
+			if (current == parent->left)
+				parent->left = temp;
+			else
+				parent->right = temp;
 		}
-		else {
-			temp = current->right;
-			current->data = temp->data;
-			current->right = nullptr;
-			delete temp;
-		}
+		
+		else
+			root = temp;
+			
+		delete current;			
 
 	}
+
 	return 1;
 	
 }
-/*
-  root-ийн зааж буй хаяг дээр үндэстэй модыг inorder-оор хэвлэнэ.
- */
+
 void inorder(Elm *root) {
 
 	if (root == NULL) return;
@@ -132,9 +127,7 @@ void inorder(Elm *root) {
 	inorder(root->right);
 
 }
-/*
-  root-ийн зааж буй хаяг дээр үндэстэй модыг тэр чигээр нь чөлөөлнө.
- */
+
 void release(Elm *root) {
 
 	while (root != NULL) {
@@ -190,3 +183,6 @@ int main() {
 	release(root);
 	return 0;
 }
+
+//jsfiddle.net/hv2fujds
+
