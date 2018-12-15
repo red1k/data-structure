@@ -52,7 +52,7 @@ Elm *search(Elm *root, int data) {
   root-ийн зааж буй хаяг дээр үндэстэй модноос x утгыг гаргана.
   Амжилттай гаргавал 1, үгүй бол 0 буцна.
  */
-int deletion(Elm *root, int x) {
+Elm *deletion(Elm *root, int x) {
 
 	Elm *parent;
 	Elm *current = root;
@@ -89,10 +89,7 @@ int deletion(Elm *root, int x) {
 
 		current->data = temp->data;
 
-		deletion(current->right, temp->data);
-
-		current->right = nullptr;
-		delete current->right;
+		current->right = deletion(current->right, temp->data);
 
 	}
 
@@ -114,7 +111,7 @@ int deletion(Elm *root, int x) {
 
 	}
 
-	return 1;
+	return root;
 	
 }
 
