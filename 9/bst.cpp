@@ -20,15 +20,43 @@ int height(Elm *root) {
 
 }
 
-int balance(Elm *root) {
-	/*
-	if (height(root->left) > height(root->right))
-		return height(root->left) - height(root->right);
-	return height(root->right) - height(root->left);
-	*/
-	if (root == nullptr) 
+int balance (Elm *root) {
+
+	if (root == nullptr)
 		return 0;
-	return height(root->left) - height(root->right);
+	else
+		return height(root->left) - height(root->right);
+
+}
+
+Elm *left_rotate(Elm *root) {
+
+	Elm *q = root->right;
+	Elm *r = q->left;
+
+	q->left = root;
+	root->right = r;
+
+	root->height = 1 + (height(root->left) > height(root->right) ? height(root->left) : height(root->right));
+	q->height = 1 + (height(q->left) > height(q->right) ? height(q->left) : height(q->right));
+
+	return q;
+
+}
+
+Elm *right_rotate(Elm *root) {
+
+	Elm *q = root->left;
+	Elm *r = q->right;
+
+	q->right = root;
+	root->left = r;
+
+	root->height = 1 + (height(root->left) > height(root->right) ? height(root->left) : height(root->right));
+	q->height = 1 + (height(q->left) > height(q->right) ? height(q->left) : height(q->right));
+
+	return q;
+
 }
 
 Elm *insert(Elm *root, int x) {
@@ -46,43 +74,27 @@ Elm *insert(Elm *root, int x) {
 	else
 		root->right = insert(root->right, x);
 
-	//root->height++;
 	root->height = 1 + (height(root->left) > height(root->right) ? height(root->left) : height(root->right));
 
 	int check = balance(root);
 
 	if (check > 1 && root->left->data > x) {
-
-		Elm *temp = root;
-		Elm *temp_l = root->left;
-
-		root = temp_l;
-		root->right = temp;
-		root->left = temp_l->left;;
-
-		cout << "left side is heavy" << endl;
-		cout << "root: " << root->data << endl;
-		cout << "root->right->data is: " << root->right->data << endl;
-		cout << "root->left->data is: "<< root->left->data << endl;
-
-		//need to update height as well!
-
+		return right_rotate(root);
 	}
-	if (check < -1 && root->right->data < x)
-		cout << "right side is heavy" << endl;
-	if (check > 1 && root->left->data < x)
-		cout << "left-right side" << endl;
-	if (check < -1 && root->right->data > x)
-		cout << "right-left side" << endl;
 
+	if (check > 1 && root->left->data < x) {
+		cout << "left-right side is heavy" << endl;
+	}
+	if (check < -1 && root->right->data < x) {
+		return left_rotate(root);
+	}
+	if (check < -1 && root->right->data > x) {
+		cout << "right-left side is heavy" << endl;
+	}
 
 	return root;
 }
 
-/*
-  root-ийн зааж буй хаяг дээр үндэстэй модноос x утгыг хайна.
-  Олдвол олдсон Elm хаягийг буцаана. Үгүй бол NULL буцаана.
- */
 Elm *search(Elm *root, int data) {
 
 	if (root == NULL || root->data == data)
@@ -101,15 +113,10 @@ Elm *search(Elm *root, int data) {
 
 }
 
-/*
-  root-ийн зааж буй хаяг дээр үндэстэй модноос x утгыг гаргана.
-  Амжилттай гаргавал 1, үгүй бол 0 буцна.
- */
-int deletion(Elm *root, int x) {
+Elm *deletion(Elm *root, int x) {
 
-	Elm *parent = NULL;
-	Elm *current = new Elm();
-	current = root;
+	Elm *parent;
+	Elm *current = root;
 
 	while (current != NULL && current->data != x) {
 		parent = current;
@@ -130,48 +137,45 @@ int deletion(Elm *root, int x) {
 		}
 		else 
 			root = NULL;
+
 		delete current;
 	}
 
 	else if (current->left && current->right) {
 
-		Elm *temp = new Elm();
-		temp = current;
+		Elm *temp = current->right;
 
 		while (temp->left != NULL)
 			temp = temp->left;
 
 		current->data = temp->data;
 
-		current->left = nullptr;
-		delete temp;
+		current->right = deletion(current->right, temp->data);
 
 	}
 
 	else {
 
-		Elm *temp = new Elm();
+		Elm *temp = (current->left) ? current->left : current->right;
 
-		if (current->left) {
-			temp = current->left;
-			current->data = temp->data;
-			current->left = nullptr;
-			delete temp;
+		if (current != root) {
+			if (current == parent->left)
+				parent->left = temp;
+			else
+				parent->right = temp;
 		}
-		else {
-			temp = current->right;
-			current->data = temp->data;
-			current->right = nullptr;
-			delete temp;
-		}
+
+		else
+			root = temp;
+
+		delete current;
 
 	}
-	return 1;
+
+	return root;
 	
 }
-/*
-  root-ийн зааж буй хаяг дээр үндэстэй модыг inorder-оор хэвлэнэ.
- */
+
 void inorder(Elm *root) {
 
 	if (root == NULL) return;
@@ -182,33 +186,6 @@ void inorder(Elm *root) {
 
 }
 
-int baslance(Elm *root) {
-
-	/*
-	Elm *temp = new Elm();
-	temp = root;
-
-	int left_counter = 0;
-	int right_counter = 0;
-
-	while (temp != nullptr) {
-		temp = temp->left;
-		left_counter++;
-	}
-
-	while (temp != nullptr) {
-		temp = temp->right;
-		right_counter++;
-	}
-
-	if (left_counter > right_counter) 
-	*/
-	return 0;
-
-}
-/*
-  root-ийн зааж буй хаяг дээр үндэстэй модыг тэр чигээр нь чөлөөлнө.
- */
 void release(Elm *root) {
 
 	while (root != NULL) {
@@ -224,7 +201,7 @@ int main() {
 	int t, x, pos, y;
 	Elm *p;
 	while (1) {
-		printf("1: insert, 2: delete, 3: inorder, 4: search, 5: exit 6. height\n" );
+		printf("1: insert, 2: delete, 3: inorder, 4: search, 5: exit\n" );
 		scanf("%d", &t);
 
 		switch (t) {
@@ -247,8 +224,13 @@ int main() {
 			break;
 		case 3:
 			inorder(root);
-			cout << root->height << endl;
-			cout << balance(root) << endl;
+			cout << "Height of the tree is: " << height(root) << endl;
+			cout << "Root->data: " << root->data << endl;
+			cout << "Root->left->data: " << root->left->data << endl;
+			cout << "Root->right->data: " << root->right->data << endl;
+			cout << "Height of the left child is: " << height(root->left) << endl;
+			cout << "Height of the right child is: " << height(root->right) << endl;
+			cout << "Balance of the tree is: " << balance(root) << endl;
 			break;
 		case 4:
 			printf("Xaix utga: ");
@@ -259,11 +241,6 @@ int main() {
 			else
 				printf("%d utga oldsongui\n", x);
 			break;
-		case 5: {
-			int result = balance(root);
-			cout << result << endl;
-			break;
-			   }
 		default:
 			exit(0);
 		}
@@ -271,3 +248,6 @@ int main() {
 	release(root);
 	return 0;
 }
+
+//jsfiddle.net/hv2fujds
+
