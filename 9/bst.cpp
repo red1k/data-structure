@@ -83,13 +83,17 @@ Elm *insert(Elm *root, int x) {
 	}
 
 	if (check > 1 && root->left->data < x) {
-		cout << "left-right side is heavy" << endl;
+		root->left = left_rotate(root->left);
+		return right_rotate(root);
+		//cout << "left-right side is heavy" << endl;
 	}
 	if (check < -1 && root->right->data < x) {
 		return left_rotate(root);
 	}
 	if (check < -1 && root->right->data > x) {
-		cout << "right-left side is heavy" << endl;
+		root->right = right_rotate(root->right);
+		return left_rotate(root);
+		//cout << "right-left side is heavy" << endl;
 	}
 
 	return root;
