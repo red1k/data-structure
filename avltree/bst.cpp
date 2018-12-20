@@ -118,7 +118,8 @@ Elm *search(Elm *root, int data) {
 //deletion cause segmentation fault!
 Elm *deletion(Elm *root, int x) {
 
-	if (root == nullptr) return root;
+	if (root == nullptr) 
+		return root;
 
 	else if (x < root->data)
 		root->left = deletion(root->left, x);
@@ -150,6 +151,9 @@ Elm *deletion(Elm *root, int x) {
 			root->right = deletion(root->right, temp->data);
 		}
 	}
+
+	if (root == NULL)
+		return root;
 
 	//rotation
 	
@@ -225,11 +229,6 @@ int main() {
 		case 3:
 			inorder(root);
 			cout << "Height of the tree is: " << height(root) << endl;
-			cout << "Root->data: " << root->data << endl;
-			cout << "Root->left->data: " << root->left->data << endl;
-			cout << "Root->right->data: " << root->right->data << endl;
-			cout << "Height of the left child is: " << height(root->left) << endl;
-			cout << "Height of the right child is: " << height(root->right) << endl;
 			cout << "Balance of the tree is: " << balance(root) << endl;
 			break;
 		case 4:
