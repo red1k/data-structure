@@ -26,10 +26,12 @@ using namespace std;
 		cout << "Found" << endl;
 	*/
 
-int main(int argc, const char *argv[]) {
+int main(int argc, char *argv[]) {
 	
+	char *pattern = argv[1];
+	cout << "argv: " << argv[1] << endl;
 	char text[] = "redqwertreddasw";
-	char pattern[] = "red";
+	//char pattern[] = "red";
 
 	int textLen = strlen(text);
 	int pattLen = strlen(pattern);
@@ -40,14 +42,14 @@ int main(int argc, const char *argv[]) {
 	
 	for (i = 0; i < pattLen; i++) {
 		hash = (hash*INPUTS) % PRIME;
-		cout << i << " Hash: " << hash << endl;
+		//cout << i << " Hash: " << hash << endl;
 	}
 
 	for (i = 0; i < pattLen; i++) {
 		pattHash = (INPUTS * pattHash + pattern[i]) % PRIME;	
-		printf("PattHash[%d]: %d\n", i, pattHash);
+		//printf("PattHash[%d]: %d\n", i, pattHash);
 		textHash = (INPUTS * textHash + text[i]) % PRIME;	
-		printf("TextHash[%d]: %d\n", i, textHash);
+		//printf("TextHash[%d]: %d\n", i, textHash);
 	}
 
 	for (i = 0; i < textLen-pattLen+1; i++) {
