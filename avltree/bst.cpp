@@ -85,7 +85,6 @@ Elm *insert(Elm *root, int x) {
 	if (check > 1 && root->left->data < x) {
 		root->left = left_rotate(root->left);
 		return right_rotate(root);
-		//cout << "left-right side is heavy" << endl;
 	}
 	if (check < -1 && root->right->data < x) {
 		return left_rotate(root);
@@ -93,7 +92,6 @@ Elm *insert(Elm *root, int x) {
 	if (check < -1 && root->right->data > x) {
 		root->right = right_rotate(root->right);
 		return left_rotate(root);
-		//cout << "right-left side is heavy" << endl;
 	}
 
 	return root;
@@ -119,61 +117,58 @@ Elm *search(Elm *root, int data) {
 
 Elm *deletion(Elm *root, int x) {
 
-	Elm *parent;
-	Elm *current = root;
+	if (root == nullptr) return root;
 
-	while (current != NULL && current->data != x) {
-		parent = current;
-		if (x <= current->data)
-			current = current->left;
-		else
-			current = current->right;
-	}
+	else if (x < root->data)
+		root->left = deletion(root->left, x);
 
-	if (current == NULL) return 0;
-
-	else if (current->left == NULL && current->right == NULL) {
-		if (current != root) {
-			if (parent->right == current)
-				parent->right = NULL;
-			else
-				parent->left = NULL;
-		}
-		else 
-			root = NULL;
-
-		delete current;
-	}
-
-	else if (current->left && current->right) {
-
-		Elm *temp = current->right;
-
-		while (temp->left != NULL)
-			temp = temp->left;
-
-		current->data = temp->data;
-
-		current->right = deletion(current->right, temp->data);
-
-	}
+	else if (x > root->data)
+		root->right = deletion(root->right, x);
 
 	else {
 
-		Elm *temp = (current->left) ? current->left : current->right;
-
-		if (current != root) {
-			if (current == parent->left)
-				parent->left = temp;
+		if (root->left == NULL || root->right == NULL) {
+			Elm *temp = (root->left) ? root->left : root->right;
+			if (temp == NULL) {
+				temp = root;
+				root = NULL;
+			}
 			else
-				parent->right = temp;
+				*root = *temp;
+
+			delete temp;
 		}
 
-		else
-			root = temp;
+		else {
+			Elm *temp = root->right;
 
-		delete current;
+			while (temp->left != NULL)
+				temp = temp->left;
 
+			root->data = temp->data;
+			root->right = deletion(root->right, temp->data);
+		}
+	}
+
+	//rotation
+	
+	root->height = 1 + (height(root->left) > height(root->right) ? height(root->left) : height(root->right));
+
+	int check = balance(root);
+
+	if (check > 1 && balance(root->left) >= 0) {
+		return right_rotate(root);
+	}
+	if (check > 1 && balance(root->left) < 0) {
+		root->left = left_rotate(root->left);
+		return right_rotate(root);
+	}
+	if (check < -1 && balance(root->right) <= 0) {
+		return left_rotate(root);
+	}
+	if (check < -1 && balance(root->right) > 0) {
+		root->right = right_rotate(root->right);
+		return left_rotate(root);
 	}
 
 	return root;
