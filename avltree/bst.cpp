@@ -115,6 +115,7 @@ Elm *search(Elm *root, int data) {
 
 }
 
+//deletion cause segmentation fault!
 Elm *deletion(Elm *root, int x) {
 
 	if (root == nullptr) return root;
