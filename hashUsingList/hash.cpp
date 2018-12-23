@@ -29,7 +29,7 @@ int hashing(char s[]) {
 	int hash = 0;
 	int i = 0;		//lenght of s[]
 
-	while(s[i] != 0)
+	while(s[i] != '\0')
 		i++;		//finding charater's lenght
 
 	for (int j = 0; j < i; j++)
