@@ -134,6 +134,7 @@ Elm *deletion(Elm *root, int x) {
 			if (temp == NULL) {
 				temp = root;
 				root = NULL;
+				delete root;
 			}
 			else
 				*root = *temp;
